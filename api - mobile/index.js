@@ -2,19 +2,19 @@ const express = require('express');
 const app = express();
 const port = 4000;
 
-const dogComponent = require('./components/dogs');
+const authComponent = require('./components/auth');
+const dogsComponent = require('./components/dogs');
 const imageUpload = require('./components/imageUpload');
 const bodyParser = require('body-parser');
 const apiKeyDemo = require('./components/apiKeyDemo');
 const cors = require('cors');
+const passportSetup = require('./service/googlePassport');
+const db = require('./db');
 
-
-
-const customHeaderCheckerMiddleware = function(req, res, next) {
+const customHeaderCheckerMiddleware = function (req, res, next) {
     console.log('Middleware is active!');
-    if(req.headers['custom-header-param'] === undefined)
-    {
-        return res.status(400).json({ reason: "custom-header-param header missing"});
+    if (req.headers['custom-header-param'] === undefined) {
+        return res.status(400).json({ reason: "custom-header-param header missing" });
     }
 
     // pass the control to the next handler in line
@@ -39,16 +39,16 @@ app.get('/hello/:parameter1/world/:parameter2', (req, res) => {
 
 /* Example of defining routes with different method handlers */
 app.route('/world')
-    .get((req,res) => res.send('get World'))
+    .get((req, res) => res.send('get World'))
     .post((req, res) => res.send('post World'))
     .put((req, res) => res.send('put World'))
     .delete((req, res) => res.send('delete World'))
 
 /* demonstrate route module/component usage - the dogComponent content is defined in separate file */
-app.use('/dogs', dogComponent);
+app.use('/auth', authComponent);
 
 app.use('/apiKey', apiKeyDemo);
-
+app.use('/dogs', dogsComponent);
 app.use('/fileUpload', imageUpload);
 
 /* This will be activated as the last if no other route matches. */
@@ -68,7 +68,19 @@ app.use((err, req, res, next) => {
     console.error('Path attempted - ' + req.path)
     res.send(err.toString());
 });
-
+//Database init
+Promise.all(
+    [
+        db.query(`CREATE TABLE IF NOT EXISTS users(
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            idGoogle VARCHAR(32),
+            name VARCHAR(32)
+        )`)
+        // Add more table create statements if you need more tables
+    ]
+).then(() => {
+    console.log('database initialized');
+})
 
 app.listen(port, () => {
     console.log(`Example API listening on http://localhost:${port}\n`);

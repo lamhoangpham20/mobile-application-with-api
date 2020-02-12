@@ -15,6 +15,10 @@
     "express": "^4.16.4",
     "has-value": "^2.0.2",
     "multer": "^1.4.2",
+    "mysql": "^2.18.1",
+    "passport": "^0.4.1",
+    "passport-google-oauth20": "^2.0.0",
+    "superagent": "^5.2.1",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
