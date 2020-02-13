@@ -1,5 +1,5 @@
 const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const InstagramStrategy = require('passport-instagram').Strategy;
 const keys = require('./Key');
 const db = require('../db');
 
@@ -12,11 +12,11 @@ passport.serializeUser((user, done) => {
 // });
 
 passport.use(
-  new GoogleStrategy({
+  new InstagramStrategy({
     // options for google strategy
-    clientID: keys.google.clientID,
-    clientSecret: keys.google.clientSecret,
-    callbackURL: '/auth/google/redirect'
+    clientID: keys.instagram.clientID,
+    clientSecret: keys.instagram.clientSecret,
+    callbackURL: ''
   }, (accessToken, refreshToken, profile, done) => {
     // passport callback function
     db.query('SELECT * FROM users where idGoogle = ?', [profile.id])

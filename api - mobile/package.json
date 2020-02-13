@@ -11,13 +11,18 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",
+    "cookie-session": "^1.4.0",
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "has-value": "^2.0.2",
     "multer": "^1.4.2",
     "mysql": "^2.18.1",
     "passport": "^0.4.1",
+    "passport-facebook": "^2.0.0",
+    "passport-github2": "^0.1.9",
     "passport-google-oauth20": "^2.0.0",
+    "passport-instagram": "^1.0.0",
+    "passport-twitter": "^1.0.4",
     "superagent": "^5.2.1",
     "uuid": "^3.3.2"
   },

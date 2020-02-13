@@ -1,15 +1,23 @@
 const express = require('express');
 const app = express();
 const port = 4000;
-
+const passport = require('passport');
 const authComponent = require('./components/auth');
+const usersComponent = require('./components/users');
 const dogsComponent = require('./components/dogs');
 const imageUpload = require('./components/imageUpload');
 const bodyParser = require('body-parser');
 const apiKeyDemo = require('./components/apiKeyDemo');
 const cors = require('cors');
-const passportSetup = require('./service/googlePassport');
+const GooglePassportSetup = require('./service/googlePassport');
+const FacebookPassportSetup = require('./service/facebookPassport');
+const GithubPassportSetup = require('./service/githubPassport');
+const TwitterPassportSetup = require('./service/twitterPassport');
+const InstagramPassportSetup = require('./service/instagramPassport');
 const db = require('./db');
+const cookieSession = require('cookie-session');
+const keys = require('./service/Key');
+
 
 const customHeaderCheckerMiddleware = function (req, res, next) {
     console.log('Middleware is active!');
@@ -21,11 +29,16 @@ const customHeaderCheckerMiddleware = function (req, res, next) {
     next();
 }
 
-//app.use(customHeaderCheckerMiddleware);
+// app.use(cookieSession({
+//     maxAge: 24 * 60 * 60 * 1000,
+//     keys: [keys.session.cookieKey]
+// }));
+
+// app.use(customHeaderCheckerMiddleware);
 app.use(bodyParser.json());
 app.use(cors());
-
-
+app.use(passport.initialize());
+// app.use(passport.session());
 /* basic HTTP method handling */
 app.get('/hello', (req, res) => res.send('Hello GET World!'));
 app.post('/hello', (req, res) => res.send('Hello POST World!'));
@@ -46,7 +59,7 @@ app.route('/world')
 
 /* demonstrate route module/component usage - the dogComponent content is defined in separate file */
 app.use('/auth', authComponent);
-
+app.use('/users', usersComponent);
 app.use('/apiKey', apiKeyDemo);
 app.use('/dogs', dogsComponent);
 app.use('/fileUpload', imageUpload);

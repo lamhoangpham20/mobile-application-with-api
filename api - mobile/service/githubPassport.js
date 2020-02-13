@@ -1,22 +1,22 @@
 const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const GithubStrategy = require('passport-github2').Strategy;
 const keys = require('./Key');
 const db = require('../db');
 
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
+// passport.serializeUser((user, done) => {
+//   done(null, user.id);
+// });
 
 // passport.deserializeUser((id, done) => {
 //   done(null, id);
 // });
 
 passport.use(
-  new GoogleStrategy({
+  new GithubStrategy({
     // options for google strategy
-    clientID: keys.google.clientID,
-    clientSecret: keys.google.clientSecret,
-    callbackURL: '/auth/google/redirect'
+    clientID: keys.github.clientID,
+    clientSecret: keys.github.clientSecret,
+    callbackURL: 'http://localhost:4000/auth/github/callback'
   }, (accessToken, refreshToken, profile, done) => {
     // passport callback function
     db.query('SELECT * FROM users where idGoogle = ?', [profile.id])
