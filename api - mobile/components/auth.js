@@ -9,7 +9,7 @@ router.get('/google', passport.authenticate('google', {
 
 router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
 
-    res.send(req.user);
+    res.redirect('http://localhost:3000/');
 });
 
 //facebook log in

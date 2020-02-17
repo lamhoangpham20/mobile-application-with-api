@@ -3,6 +3,7 @@ const app = express();
 const port = 4000;
 const passport = require('passport');
 const authComponent = require('./components/auth');
+const jwtAuth= require('./components/jwt_auth');
 const usersComponent = require('./components/users');
 const dogsComponent = require('./components/dogs');
 const imageUpload = require('./components/imageUpload');
@@ -44,7 +45,7 @@ app.get('/hello', (req, res) => res.send('Hello GET World!'));
 app.post('/hello', (req, res) => res.send('Hello POST World!'));
 app.put('/hello', (req, res) => res.send('Hello PUT World!'));
 app.delete('/hello', (req, res) => res.send('Hello DELETE World!'));
-
+app.use('/jwt', jwtAuth);
 /* Route parameters */
 app.get('/hello/:parameter1/world/:parameter2', (req, res) => {
     res.send('Your route parameters are\n' + JSON.stringify(req.params));
@@ -86,7 +87,9 @@ Promise.all(
     [
         db.query(`CREATE TABLE IF NOT EXISTS users(
             id INT AUTO_INCREMENT PRIMARY KEY,
-            idGoogle VARCHAR(32),
+            idOauth VARCHAR(32),
+            username VARCHAR(32),
+            password VARCHAR(256),
             name VARCHAR(32)
         )`)
         // Add more table create statements if you need more tables
