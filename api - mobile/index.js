@@ -7,6 +7,7 @@ const dogsComponent = require('./components/dogs');
 const imageUpload = require('./components/imageUpload');
 const bodyParser = require('body-parser');
 const apiKeyDemo = require('./components/apiKeyDemo');
+const products = require('./components/products');
 const cors = require('cors');
 const passportSetup = require('./service/googlePassport');
 const db = require('./db');
@@ -50,6 +51,7 @@ app.use('/auth', authComponent);
 app.use('/apiKey', apiKeyDemo);
 app.use('/dogs', dogsComponent);
 app.use('/fileUpload', imageUpload);
+app.use('/products' , products);
 
 /* This will be activated as the last if no other route matches. */
 app.use((req, res, next) => {
