@@ -4,11 +4,11 @@ const keys = require('./Key');
 const db = require('../db');
 
 passport.serializeUser((user, done) => {
-  done(null, user.id);
+  done(null, user);
 });
 
-passport.deserializeUser((id, done) => {
-  done(null, id);
+passport.deserializeUser((user, done) => {
+  done(null, user);
 });
 
 passport.use(
@@ -27,6 +27,7 @@ passport.use(
           user = result[0];
           console.log('user already in the db');
           console.log(result[0]);
+          
           done(null, user);
         }
         else {

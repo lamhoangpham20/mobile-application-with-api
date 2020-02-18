@@ -30,16 +30,20 @@ const customHeaderCheckerMiddleware = function (req, res, next) {
     next();
 }
 
-// app.use(cookieSession({
-//     maxAge: 24 * 60 * 60 * 1000,
-//     keys: [keys.session.cookieKey]
-// }));
+app.use(cookieSession({
+    maxAge: 24 * 60 * 60 * 1000,
+    keys: [keys.session.cookieKey]
+}));
 
 // app.use(customHeaderCheckerMiddleware);
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:3000",
+    methods: "GET",
+    credentials:true
+}));
 app.use(passport.initialize());
-// app.use(passport.session());
+app.use(passport.session());
 /* basic HTTP method handling */
 app.get('/hello', (req, res) => res.send('Hello GET World!'));
 app.post('/hello', (req, res) => res.send('Hello POST World!'));
