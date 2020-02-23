@@ -67,7 +67,7 @@ router.delete('/:usersId', (req, res) => {
 });
 
 router.put('/:usersId', (req, res) => {
-    db.query('update users set name=? where id=?', [req.name, req.params.usersID])
+    db.query('update users set name=? where id=?', [req.body.name, req.params.usersId])
         .then(results => {
             res.sendStatus(200);
         })

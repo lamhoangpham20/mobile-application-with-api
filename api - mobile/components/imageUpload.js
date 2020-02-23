@@ -8,14 +8,16 @@ router.get('/', (req, res) => {
     res.send("Only POST method accepted with multipart file");
 })
 
-router.post('/', multerUpload.single('testFile'), (req, res) => {    
-    console.log(req.file);
+router.post('/', multerUpload.array('testFile'), (req, res) => {
+    req.files.map(i => {
+        console.log(i);
 
-    fs.rename(req.file.path, './uploads/' + req.file.originalname, function (err) {
-        if (err) throw err;
-        console.log('renamed complete');
-        res.send("Test");
-      });    
-});
+        fs.rename(i.path, './uploads/' + i.originalname, function (err) {
+            if (err) throw err;
+            console.log('renamed complete');
+            res.send("Test");
+        });
+    })
+})
 
 module.exports = router;

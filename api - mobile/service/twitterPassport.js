@@ -23,10 +23,10 @@ passport.use(
         // options for google strategy
         consumerKey: keys.twitter.clientID,
         consumerSecret: keys.twitter.clientSecret,
-        callbackURL: 'http://localhost:4000/auth/twitter/callback',
+        callbackURL: '/auth/twitter/callback',
     }, (token, tokenSecret, profile, cb) => {
         // passport callback function
-        db.query('SELECT * FROM users where idGoogle = ?', [profile.id])
+        db.query('SELECT * FROM users where idOauth = ?', [profile.id])
             .then(function (result,err) {
                 //check if user in db
                 if (result.length != 0) {
@@ -38,13 +38,13 @@ passport.use(
                 }
                 else {
                     //create new user
-                    db.query('INSERT INTO users (idGoogle, name) VALUES (?,?)', [profile.id, profile.displayName])
+                    db.query('INSERT INTO users (idOauth, name) VALUES (?,?)', [profile.id, profile.displayName])
                         .then(
                             results => {
                                 console.log(results);
                             }
                         );
-                    db.query('SELECT * FROM users where idGoogle = ?', [profile.id]).then(function (result) {
+                    db.query('SELECT * FROM users where idOauth = ?', [profile.id]).then(function (result) {
                         user = result[0];
                        return(null, user);
                     })
