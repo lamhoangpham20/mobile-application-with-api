@@ -1,0 +1,382 @@
+{
+	"info": {
+		"_postman_id": "a6a6ed9b-e05b-45a1-9685-9a05a230e5ae",
+		"name": "mobile-products-api-test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get products",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bf2c5457-82a5-4a83-8d4c-72f3b0b4f605",
+						"exec": [
+							"pm.test(\"status code should be 200\", function()",
+							"{",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Validate structure and content\",function()",
+							"{",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.products[0]).to.have.property('idproduct' , 2);",
+							"    pm.expect(jsonData.products[0]).to.have.property('idusers');",
+							"    pm.expect(jsonData.products[0]).to.have.property('Title');",
+							"    pm.expect(jsonData.products[0]).to.have.property('Description');",
+							"    pm.expect(jsonData.products[0]).to.have.property('Category');",
+							"    pm.expect(jsonData.products[0]).to.have.property('Location');",
+							"    pm.expect(jsonData.products[0]).to.have.property('Images');",
+							"    pm.expect(jsonData.products[0]).to.have.property('Price');",
+							"    pm.expect(jsonData.products[0]).to.have.property('Type');",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n \t\"idusers\":\"1\",\r\n        \"title\": \"Ngu\",\r\n        \"description\": \"Used shirt\",\r\n        \"category\": \"clothes\",\r\n        \"location\": \"helsinki\",\r\n        \"images\": \"shirt.png\",\r\n        \"price\": \"25e\",\r\n        \"type\": \"Pick up\"\r\n \t\r\n }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get products by id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bf2c5457-82a5-4a83-8d4c-72f3b0b4f605",
+						"exec": [
+							"pm.test(\"status code should be 200\", function()",
+							"{",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Validate structure and content\",function()",
+							"{",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData[0]).to.have.property('idproduct' , 2);",
+							"    pm.expect(jsonData[0]).to.have.property('idusers');",
+							"    pm.expect(jsonData[0]).to.have.property('Title');",
+							"    pm.expect(jsonData[0]).to.have.property('Description');",
+							"    pm.expect(jsonData[0]).to.have.property('Category');",
+							"    pm.expect(jsonData[0]).to.have.property('Location');",
+							"    pm.expect(jsonData[0]).to.have.property('Images');",
+							"    pm.expect(jsonData[0]).to.have.property('Price');",
+							"    pm.expect(jsonData[0]).to.have.property('Type');",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n \t\"idusers\":\"1\",\r\n        \"title\": \"Ngu\",\r\n        \"description\": \"Used shirt\",\r\n        \"category\": \"clothes\",\r\n        \"location\": \"helsinki\",\r\n        \"images\": \"shirt.png\",\r\n        \"price\": \"25e\",\r\n        \"type\": \"Pick up\"\r\n \t\r\n }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/products/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"products",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post products",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "989de902-f625-4685-a1bc-8c7db12521c0",
+						"exec": [
+							"pm.test(\"status code is 201\" , function() {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n     \"iduser\":\"1\",\n     \"title\": \"Ngu\",\n     \"description\": \"Used shirt\",\n     \"category\": \"clothes\",\n     \"location\": \"helsinki\",\n     \"images\": \"shirt.png\",\n     \"price\": \"25e\",\n     \"type\": \"Pick up\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "edit products",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9b5d4125-d5c6-4348-b370-4788a7eb598a",
+						"exec": [
+							"pm.test(\"Status code is 201\" , function() {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \t\"iduser\":\"1\",\r\n    \"title\": \"Cosplay clothes\",\r\n    \"description\": \"Used shirt\",\r\n    \"category\": \"clothes\",\r\n    \"location\": \"helsinki\",\r\n    \"images\": \"shirt.png\",\r\n    \"price\": \"25e\",\r\n    \"type\": \"Pick up\"\r\n \t\r\n }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/products/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"products",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete products",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6e36c10d-b97e-474d-a060-59dd2eba6291",
+						"exec": [
+							"pm.test(\"Status code is 201\" , function() {",
+							"    pm.response.to.status(201);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/products/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"products",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get search category",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c687fe0a-358c-466d-9b9d-125e21d3390d",
+						"exec": [
+							"pm.test(\"Status code is 200\" , function() {",
+							"    pm.response.to.status(200);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/products/category/clothes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"products",
+						"category",
+						"clothes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get search location",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "68c43b1f-f0ce-41f5-a6a6-e928f8702042",
+						"exec": [
+							"pm.test(\"Status code is 200\" , function() {",
+							"    pm.response.to.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/products/location/hel",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"products",
+						"location",
+						"hel"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get search date",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "68d412d8-dfff-45d6-ba7e-5a869dc38002",
+						"exec": [
+							"pm.test(\"Status code is 200\", function() {",
+							"    pm.response.to.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/products/date/22",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"products",
+						"date",
+						"22"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
