@@ -86,7 +86,7 @@
 							"pm.test(\"Validate structure and content\",function()",
 							"{",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData[0]).to.have.property('idproduct' , 2);",
+							"    pm.expect(jsonData[0]).to.have.property('idproduct' , 1);",
 							"    pm.expect(jsonData[0]).to.have.property('idusers');",
 							"    pm.expect(jsonData[0]).to.have.property('Title');",
 							"    pm.expect(jsonData[0]).to.have.property('Description');",
@@ -124,7 +124,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:4000/products/2",
+					"raw": "http://localhost:4000/products/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -224,7 +224,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:4000/products/2",
+					"raw": "http://localhost:4000/products/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -258,7 +258,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:4000/products/4",
+					"raw": "http://localhost:4000/products/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -337,41 +337,6 @@
 						"products",
 						"location",
 						"hel"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "get search date",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "68d412d8-dfff-45d6-ba7e-5a869dc38002",
-						"exec": [
-							"pm.test(\"Status code is 200\", function() {",
-							"    pm.response.to.status(200);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:4000/products/date/22",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "4000",
-					"path": [
-						"products",
-						"date",
-						"22"
 					]
 				}
 			},
