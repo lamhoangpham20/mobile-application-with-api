@@ -3,7 +3,7 @@ const router = express.Router();
 const db = require('../db');
 
 router.get('/', (req, res) => {
-    db.query('SELECT * FROM products').then(results => {
+    db.query('SELECT products.*, users.name FROM products inner join users on products.idusers = users.id').then(results => {
         res.json({ products: results });
     }).catch(() => {
         res.sendStatus(500);
@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:idproduct', (req, res) => {
-    db.query('SELECT * FROM products where idproduct = ?', [req.params.idproduct])
+    db.query('SELECT products.*, users.name FROM products where idproduct = ? inner join users on products.idusers = users.id ', [req.params.idproduct])
         .then(results => {
             res.json(results);
         }).catch(error => {
@@ -21,8 +21,13 @@ router.get('/:idproduct', (req, res) => {
 });
 
 router.post('/', (req, res) => {
+<<<<<<< HEAD
     db.query('INSERT INTO products (idusers,Title , Description , Category , Location , Images , Price , Type ) VALUES (?,?,?,?,?,?,?,?)',
         [ req.body.iduser,req.body.title, req.body.description, req.body.category, req.body.location, req.body.images, req.body.price, req.body.type])
+=======
+    db.query('INSERT INTO products (idusers, Title, Description, Category, Location, Images, Price, ShippingType ) VALUES (?,?,?,?,?,?,?,?)',
+        [req.body.idusers, req.body.title, req.body.description, req.body.category, req.body.location, req.body.images, req.body.price, req.body.Shippingtype])
+>>>>>>> be5c4963c1d885efd92ae1515fb35ba8ef735656
         .then(results => {
             console.log(results);
             res.sendStatus(201);
@@ -43,8 +48,8 @@ router.delete('/:idproduct', (req, res) => {
 });
 
 router.put('/:idproduct', (req, res) => {
-    db.query('UPDATE products set iduser=? Title=? , Description=? , Category=? , Location=? , Images=? ,Price=?, Type=? where idproduct=?',
-        [req.body.iduser, req.body.title, req.body.description, req.body.category, req.body.location, req.body.images, req.body.price, req.body.type, req.params.idproduct])
+    db.query('UPDATE products set  Title=?, Description=?, Category=?, Location=?, Images=?, Price=?, ShippingType=? where idproduct=?',
+        [req.body.title, req.body.description, req.body.category, req.body.location, req.body.images, req.body.price, req.body.Shippingtype, req.params.idproduct])
         .then(results => {
             console.log(results);
             res.sendStatus(201);
@@ -54,4 +59,40 @@ router.put('/:idproduct', (req, res) => {
         });
 });
 
+router.get('/category/:category', (req, res)=>{
+    db.query('SELECT products.*, users.name FROM products inner join users on products.idusers = users.id ')
+    .then((results)=>
+    {
+        console.log(results);
+        console.log(results.products);
+        let products = results.filter(i=> i.Category.toUpperCase().includes(req.params.category.toUpperCase()));
+        res.send(products);
+    }).catch(error => {
+        console.log(error);
+    })
+});
+
+router.get('/location/:location', (req,res) =>{
+    db.query('SELECT products.*, users.name FROM products inner join users on products.idusers = users.id ')
+    .then((results) => {
+        console.log(results);
+        console.log(results.products);
+        let products = results.filter(i => i.Location.toUpperCase().includes(req.params.location.toUpperCase()));
+        res.send(products);
+    }).catch(error => {
+        console.log(error);
+    })
+})
+
+router.get('/date/:date', (req,res) =>{
+    db.query('SELECT products.*, users.name FROM products inner join users on products.idusers = users.id ')
+    .then((results) => {
+        console.log(results);
+        console.log(results.products);
+        let products = results.filter(i => i.Date.toUpperCase().includes(req.params.date.toUpperCase()));
+        res.send(products);
+    }).catch(error => {
+        console.log(error);
+    })
+})
 module.exports = router;
