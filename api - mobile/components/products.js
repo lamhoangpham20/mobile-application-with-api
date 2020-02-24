@@ -43,8 +43,8 @@ router.delete('/:idproduct', (req, res) => {
 });
 
 router.put('/:idproduct', (req, res) => {
-    db.query('UPDATE products set idusers=?, Title=?, Description=?, Category=?, Location=?, Images=?, Price=?, ShippingType=? where idproduct=?',
-        [req.body.idusers, req.body.title, req.body.description, req.body.category, req.body.location, req.body.images, req.body.price, req.body.Shippingtype, req.params.idproduct])
+    db.query('UPDATE products set  Title=?, Description=?, Category=?, Location=?, Images=?, Price=?, ShippingType=? where idproduct=?',
+        [req.body.title, req.body.description, req.body.category, req.body.location, req.body.images, req.body.price, req.body.Shippingtype, req.params.idproduct])
         .then(results => {
             console.log(results);
             res.sendStatus(201);
@@ -54,4 +54,40 @@ router.put('/:idproduct', (req, res) => {
         });
 });
 
+router.get('/category/:category', (req, res)=>{
+    db.query('SELECT products.*, users.name FROM products inner join users on products.idusers = users.id ')
+    .then((results)=>
+    {
+        console.log(results);
+        console.log(results.products);
+        let products = results.filter(i=> i.Category.toUpperCase().includes(req.params.category.toUpperCase()));
+        res.send(products);
+    }).catch(error => {
+        console.log(error);
+    })
+});
+
+router.get('/location/:location', (req,res) =>{
+    db.query('SELECT products.*, users.name FROM products inner join users on products.idusers = users.id ')
+    .then((results) => {
+        console.log(results);
+        console.log(results.products);
+        let products = results.filter(i => i.Location.toUpperCase().includes(req.params.location.toUpperCase()));
+        res.send(products);
+    }).catch(error => {
+        console.log(error);
+    })
+})
+
+router.get('/date/:date', (req,res) =>{
+    db.query('SELECT products.*, users.name FROM products inner join users on products.idusers = users.id ')
+    .then((results) => {
+        console.log(results);
+        console.log(results.products);
+        let products = results.filter(i => i.Date.toUpperCase().includes(req.params.date.toUpperCase()));
+        res.send(products);
+    }).catch(error => {
+        console.log(error);
+    })
+})
 module.exports = router;
