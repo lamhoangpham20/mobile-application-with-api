@@ -3,7 +3,7 @@ const router = express.Router();
 const db = require('../db');
 
 router.get('/', (req, res) => {
-    db.query('SELECT * FROM products').then(results => {
+    db.query('SELECT * FROM products inner join users on products.idusers = users.id').then(results => {
         res.json({ products: results });
     }).catch(() => {
         res.sendStatus(500);
@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:idproduct', (req, res) => {
-    db.query('SELECT * FROM products where idproduct = ?', [req.params.idproduct])
+    db.query('SELECT * FROM products where idproduct = ? inner join users on products.idusers = users.id ', [req.params.idproduct])
         .then(results => {
             res.json(results);
         }).catch(error => {

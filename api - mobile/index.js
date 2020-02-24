@@ -100,18 +100,18 @@ Promise.all(
         )`),
         db.query(`CREATE TABLE IF NOT EXISTS products(
             idproduct INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-            iduser INT(11) NOT NULL,
+            idusers INT(11) NOT NULL,
             Title varchar(45) NOT NULL,
             Description varchar(45) NOT NULL,
             Category varchar(45) NOT NULL,
-            Location varcahr(45) NOT NULL,
+            Location varchar(45) NOT NULL,
             Images varchar(256) Default NUll,
             Price varchar(45) NOT NULL,
             Type varchar(45) NOT NULL,
             Date datetime default CURRENT_TIMESTAMP,
-            KEY `iduser` (`iduser`),
-            CONSTRAINT `iduser` FOREIGN KEY (`iduser`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-            )`)
+            INDEX iduser_idx (idusers ASC),
+            CONSTRAINT iduser FOREIGN KEY (idusers) REFERENCES mobile.users (id) ON DELETE NO ACTION ON UPDATE NO ACTION
+        )`)
         // Add more table create statements if you need more tables
     ]
 ).then(() => {
