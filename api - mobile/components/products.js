@@ -3,7 +3,7 @@ const router = express.Router();
 const db = require('../db');
 
 router.get('/', (req, res) => {
-    db.query('SELECT * FROM products inner join users on products.idusers = users.id').then(results => {
+    db.query('SELECT products.*, users.name FROM products inner join users on products.idusers = users.id').then(results => {
         res.json({ products: results });
     }).catch(() => {
         res.sendStatus(500);
@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:idproduct', (req, res) => {
-    db.query('SELECT * FROM products where idproduct = ? inner join users on products.idusers = users.id ', [req.params.idproduct])
+    db.query('SELECT products.*, users.name FROM products where idproduct = ? inner join users on products.idusers = users.id ', [req.params.idproduct])
         .then(results => {
             res.json(results);
         }).catch(error => {
@@ -21,8 +21,8 @@ router.get('/:idproduct', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-    db.query('INSERT INTO products (idusers,Title , Description , Category , Location , Images , Price , ShippingType ) VALUES (?,?,?,?,?,?,?,?)',
-        [ req.body.idusers,req.body.title, req.body.description, req.body.category, req.body.location, req.body.images, req.body.price, req.body.Shippingtype])
+    db.query('INSERT INTO products (idusers, Title, Description, Category, Location, Images, Price, ShippingType ) VALUES (?,?,?,?,?,?,?,?)',
+        [req.body.idusers, req.body.title, req.body.description, req.body.category, req.body.location, req.body.images, req.body.price, req.body.Shippingtype])
         .then(results => {
             console.log(results);
             res.sendStatus(201);
@@ -43,7 +43,7 @@ router.delete('/:idproduct', (req, res) => {
 });
 
 router.put('/:idproduct', (req, res) => {
-    db.query('UPDATE products set idusers=? Title=? , Description=? , Category=? , Location=? , Images=? ,Price=?, ShippingType=? where idproduct=?',
+    db.query('UPDATE products set idusers=?, Title=?, Description=?, Category=?, Location=?, Images=?, Price=?, ShippingType=? where idproduct=?',
         [req.body.idusers, req.body.title, req.body.description, req.body.category, req.body.location, req.body.images, req.body.price, req.body.Shippingtype, req.params.idproduct])
         .then(results => {
             console.log(results);
