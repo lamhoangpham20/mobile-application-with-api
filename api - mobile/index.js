@@ -69,7 +69,7 @@ app.use('/users', usersComponent);
 app.use('/apiKey', apiKeyDemo);
 app.use('/dogs', dogsComponent);
 app.use('/fileUpload', imageUpload);
-app.use('products', products);
+app.use('/products', products);
 
 /* This will be activated as the last if no other route matches. */
 app.use((req, res, next) => {
@@ -107,7 +107,7 @@ Promise.all(
             Location varchar(45) NOT NULL,
             Images varchar(256) Default NUll,
             Price varchar(45) NOT NULL,
-            Type varchar(45) NOT NULL,
+            ShippingType varchar(45) NOT NULL,
             Date datetime default CURRENT_TIMESTAMP,
             INDEX iduser_idx (idusers ASC),
             CONSTRAINT iduser FOREIGN KEY (idusers) REFERENCES mobile.users (id) ON DELETE NO ACTION ON UPDATE NO ACTION

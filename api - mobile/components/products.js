@@ -21,8 +21,8 @@ router.get('/:idproduct', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-    db.query('INSERT INTO products (iduser,Title , Description , Category , Location , Images , Price , Type ) VALUES (?,?,?,?,?,?,?,?)',
-        [ req.body.iduser,req.body.title, req.body.description, req.body.category, req.body.location, req.body.images, req.body.price, req.body.type])
+    db.query('INSERT INTO products (idusers,Title , Description , Category , Location , Images , Price , ShippingType ) VALUES (?,?,?,?,?,?,?,?)',
+        [ req.body.idusers,req.body.title, req.body.description, req.body.category, req.body.location, req.body.images, req.body.price, req.body.Shippingtype])
         .then(results => {
             console.log(results);
             res.sendStatus(201);
@@ -43,8 +43,8 @@ router.delete('/:idproduct', (req, res) => {
 });
 
 router.put('/:idproduct', (req, res) => {
-    db.query('UPDATE products set iduser=? Title=? , Description=? , Category=? , Location=? , Images=? ,Price=?, Type=? where idproduct=?',
-        [req.body.iduser, req.body.title, req.body.description, req.body.category, req.body.location, req.body.images, req.body.price, req.body.type, req.params.idproduct])
+    db.query('UPDATE products set idusers=? Title=? , Description=? , Category=? , Location=? , Images=? ,Price=?, ShippingType=? where idproduct=?',
+        [req.body.idusers, req.body.title, req.body.description, req.body.category, req.body.location, req.body.images, req.body.price, req.body.Shippingtype, req.params.idproduct])
         .then(results => {
             console.log(results);
             res.sendStatus(201);
