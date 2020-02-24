@@ -3,9 +3,9 @@ const router = express.Router();
 const db = require('../db');
 const bcrypt = require('bcryptjs');
 const saltRounds = 4;
-//  Return all dog information 
+//  Return all users information 
 router.get('/', (req, res) => {
-    db.query('SELECT * FROM users').then(results => {
+    db.query('SELECT id, idOauth, username, name, email, phoneNumber FROM users').then(results => {
         res.json({ users: results })
     })
         .catch(() => {
@@ -13,9 +13,9 @@ router.get('/', (req, res) => {
         })
 });
 
-//  Return information of a single dog 
+//  Return information of a single user
 router.get('/:usersId', (req, res) => {
-    db.query('SELECT * FROM users where id = ?', [req.params.usersId])
+    db.query('SELECT id, idOauth, username, name, email, phoneNumber FROM users where id = ?', [req.params.usersId])
         .then(results => {
             res.json(results);
         })
@@ -25,12 +25,8 @@ router.get('/:usersId', (req, res) => {
         });
 })
 
-/* Create a new dog 
-    Expects the following data format
-    {
-        name: string, 
-        image: string - whole url to image
-    }
+/* Create a new user
+   
 */
 router.post('/', (req, res) => {
     let username = req.body.username.trim();
@@ -41,7 +37,7 @@ router.post('/', (req, res) => {
         (typeof password === "string") &&
         (password.length > 6)) {
         bcrypt.hash(password, saltRounds).then(hash =>
-            db.query('INSERT INTO users (username, password, name) VALUES (?,?,?)', [username, hash,req.body.name])
+            db.query('INSERT INTO users (username, password, name, email, phoneNumber) VALUES (?,?,?,?,?)', [username, hash, req.body.name, req.body.email, req.body.phoneNumber])
         )
             .then(dbResults => {
                 console.log(dbResults);

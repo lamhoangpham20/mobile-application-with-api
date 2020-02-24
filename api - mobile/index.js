@@ -94,8 +94,10 @@ Promise.all(
             idOauth VARCHAR(32),
             username VARCHAR(32),
             password VARCHAR(256),
-            name VARCHAR(32)
-        )`)
+            name VARCHAR(32),
+            email VARCHAR(32),
+            phoneNumber VARCHAR(32)
+        )`),
         // Add more table create statements if you need more tables
     ]
 ).then(() => {
