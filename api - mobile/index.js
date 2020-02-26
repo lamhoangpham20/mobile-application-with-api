@@ -96,7 +96,9 @@ Promise.all(
             idOauth VARCHAR(32),
             username VARCHAR(32),
             password VARCHAR(256),
-            name VARCHAR(32)
+            name VARCHAR(32),
+            email VARCHAR(32),
+            phoneNumber VARCHAR(32)
         )`),
         db.query(`CREATE TABLE IF NOT EXISTS products(
             idproduct INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -109,8 +111,7 @@ Promise.all(
             Price varchar(45) NOT NULL,
             ShippingType varchar(45) NOT NULL,
             Date datetime default CURRENT_TIMESTAMP,
-            INDEX iduser_idx (idusers ASC),
-            CONSTRAINT iduser FOREIGN KEY (idusers) REFERENCES mobile.users (id) ON DELETE NO ACTION ON UPDATE NO ACTION
+            FOREIGN KEY (idusers) REFERENCES users(id)
         )`)
         // Add more table create statements if you need more tables
     ]
