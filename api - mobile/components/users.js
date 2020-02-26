@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db');
 const bcrypt = require('bcryptjs');
+const passport = require('passport');
 const saltRounds = 4;
 //  Return all users information 
 router.get('/', (req, res) => {
@@ -51,7 +52,7 @@ router.post('/', (req, res) => {
     }
 });
 
-router.delete('/:usersId', (req, res) => {
+router.delete('/:usersId', passport.authenticate('jwt', { session: false }), (req, res) => {
     db.query('DELETE FROM users where id = ?', [req.params.usersId])
         .then(results => {
             res.sendStatus(200);
@@ -62,7 +63,7 @@ router.delete('/:usersId', (req, res) => {
         });
 });
 
-router.put('/:usersId', (req, res) => {
+router.put('/:usersId', passport.authenticate('jwt', { session: false }), (req, res) => {
     db.query('update users set name=? where id=?', [req.body.name, req.params.usersId])
         .then(results => {
             res.sendStatus(200);

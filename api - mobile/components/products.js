@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const passport = require('passport');
 const db = require('../db');
 
 router.get('/', (req, res) => {
@@ -20,14 +21,9 @@ router.get('/:idproduct', (req, res) => {
         });
 });
 
-router.post('/', (req, res) => {
-<<<<<<< HEAD
-    db.query('INSERT INTO products (idusers,Title , Description , Category , Location , Images , Price , Type ) VALUES (?,?,?,?,?,?,?,?)',
-        [ req.body.iduser,req.body.title, req.body.description, req.body.category, req.body.location, req.body.images, req.body.price, req.body.type])
-=======
+router.post('/', passport.authenticate('jwt', { session: false }), (req, res) => {
     db.query('INSERT INTO products (idusers, Title, Description, Category, Location, Images, Price, ShippingType ) VALUES (?,?,?,?,?,?,?,?)',
         [req.body.idusers, req.body.title, req.body.description, req.body.category, req.body.location, req.body.images, req.body.price, req.body.Shippingtype])
->>>>>>> be5c4963c1d885efd92ae1515fb35ba8ef735656
         .then(results => {
             console.log(results);
             res.sendStatus(201);
@@ -37,7 +33,7 @@ router.post('/', (req, res) => {
         });
 });
 
-router.delete('/:idproduct', (req, res) => {
+router.delete('/:idproduct', passport.authenticate('jwt', { session: false }), (req, res) => {
     db.query('DELETE FROM products where idproduct = ?', [req.params.idproduct])
         .then(result => {
             res.sendStatus(201);
@@ -47,7 +43,7 @@ router.delete('/:idproduct', (req, res) => {
         });
 });
 
-router.put('/:idproduct', (req, res) => {
+router.put('/:idproduct', passport.authenticate('jwt', { session: false }), (req, res) => {
     db.query('UPDATE products set  Title=?, Description=?, Category=?, Location=?, Images=?, Price=?, ShippingType=? where idproduct=?',
         [req.body.title, req.body.description, req.body.category, req.body.location, req.body.images, req.body.price, req.body.Shippingtype, req.params.idproduct])
         .then(results => {

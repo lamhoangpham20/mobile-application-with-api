@@ -70,7 +70,7 @@ app.use('/apiKey', apiKeyDemo);
 app.use('/dogs', dogsComponent);
 app.use('/fileUpload', imageUpload);
 app.use('/products', products);
-
+app.use('/document', express.static('public'))
 /* This will be activated as the last if no other route matches. */
 app.use((req, res, next) => {
     const err = new Error('Not Found');

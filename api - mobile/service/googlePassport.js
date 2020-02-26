@@ -19,14 +19,15 @@ passport.use(
     callbackURL: '/auth/google/redirect'
   }, (accessToken, refreshToken, profile, done) => {
     // passport callback function
+    console.log(accessToken);
     db.query('SELECT * FROM users where idOauth = ?', [profile.id])
       .then(function (result) {
         //check if user in db
         if (result.length != 0) {
           // user already in the db
           user = result[0];
-          console.log('user already in the db');
-          console.log(result[0]);
+          //console.log('user already in the db');
+          //console.log(result[0]);
           
           done(null, user);
         }
@@ -35,7 +36,7 @@ passport.use(
           db.query('INSERT INTO users (idOauth, name) VALUES (?,?)', [profile.id, profile.displayName])
             .then(
               results => {
-                console.log(results);
+                //console.log(results);
               }
             );
           db.query('SELECT * FROM users where idOauth = ?', [profile.id]).then(function (result) {
