@@ -32,24 +32,33 @@ router.get('/:usersId', (req, res) => {
 router.post('/', (req, res) => {
     let username = req.body.username.trim();
     let password = req.body.password.trim();
+    db.query('SELECT username FROM users').then((result) => {
+        console.log(result)
+        let user = result.find(i=>i.username === username);
+        if (user === undefined) {
+            if ((typeof username === "string") &&
+                (username.length > 4) &&
+                (typeof password === "string") &&
+                (password.length > 6)) {
+                bcrypt.hash(password, saltRounds).then(hash =>
+                    db.query('INSERT INTO users (username, password, name, email, phoneNumber) VALUES (?,?,?,?,?)', [username, hash, req.body.name, req.body.email, req.body.phoneNumber])
+                )
+                    .then(dbResults => {
+                        console.log(dbResults);
+                        res.sendStatus(201);
+                    })
+                    .catch(error => res.sendStatus(500));
+            }
+            else {
+                console.log("incorrect username or password, both must be strings and username more than 4 long and password more than 6 characters long");
+                res.sendStatus(400);
+            }
+        }
+        else{
+            res.sendStatus(400);
+        }
+    })
 
-    if ((typeof username === "string") &&
-        (username.length > 4) &&
-        (typeof password === "string") &&
-        (password.length > 6)) {
-        bcrypt.hash(password, saltRounds).then(hash =>
-            db.query('INSERT INTO users (username, password, name, email, phoneNumber) VALUES (?,?,?,?,?)', [username, hash, req.body.name, req.body.email, req.body.phoneNumber])
-        )
-            .then(dbResults => {
-                console.log(dbResults);
-                res.sendStatus(201);
-            })
-            .catch(error => res.sendStatus(500));
-    }
-    else {
-        console.log("incorrect username or password, both must be strings and username more than 4 long and password more than 6 characters long");
-        res.sendStatus(400);
-    }
 });
 
 router.delete('/:usersId', passport.authenticate('jwt', { session: false }), (req, res) => {
