@@ -1,5 +1,5 @@
 const passport = require('passport');
-const FacebookStrategy = require('passport-facebook').Strategy;
+const FacebookStrategy = require('passport-facebook-token');
 const keys = require('./Key');
 const db = require('../db');
 
@@ -16,7 +16,7 @@ passport.use(
     // options for google strategy
     clientID: keys.facebook.clientID,
     clientSecret: keys.facebook.clientSecret,
-    callbackURL: '/auth/facebook/redirect'
+    //callbackURL: '/auth/facebook/redirect'
   }, (accessToken, refreshToken, profile, done) => {
     // passport callback function
     db.query('SELECT * FROM users where idOauth = ?', [profile.id])

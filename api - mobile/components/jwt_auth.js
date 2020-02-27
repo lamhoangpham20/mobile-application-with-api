@@ -13,6 +13,10 @@ const BasicStrategy = require('passport-http').BasicStrategy;
 passport.use(new BasicStrategy(
   function (username, password, done) {
     let user;
+    if (username == null)
+    {
+      return done(null, false);
+    }
     db.query('SELECT * FROM users where username = ?', [username])
       .then((result) => {
         user = result[0];

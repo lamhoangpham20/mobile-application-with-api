@@ -1,6 +1,8 @@
 const express = require('express');
 const passport = require('passport');
 const router = express.Router();
+const jwtSecretKey = require('../service/Key');
+const jwt = require('jsonwebtoken');
 
 //Middleware function
 function isUserAuthenticated(req, res, next) {
@@ -12,6 +14,25 @@ function isUserAuthenticated(req, res, next) {
     }
 }
 // google log in
+router.post('/google', passport.authenticate('google-plus-token', { session : false}),(req,res)=>{
+    //res.status(200).json(req.user);
+    const body = {
+        id: req.user.id,
+        name: req.user.name
+      };
+  
+      const payload = {
+        user: body
+      };
+  
+      const options = {
+        expiresIn: '600s'
+      }
+      const token = jwt.sign(payload, jwtSecretKey.secret, options);
+  
+      res.json({ token });
+});
+
 router.get('/google', passport.authenticate('google', {
     scope: ['profile']
 }));
@@ -22,6 +43,25 @@ router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
 });
 
 //facebook log in
+
+router.post('/facebook', passport.authenticate('facebook-token', { session : false}),(req,res)=>{
+    //res.status(200).json(req.user);
+    const body = {
+        id: req.user.id,
+        name: req.user.name
+      };
+  
+      const payload = {
+        user: body
+      };
+  
+      const options = {
+        expiresIn: '600s'
+      }
+      const token = jwt.sign(payload, jwtSecretKey.secret, options);
+  
+      res.json({ token });
+});
 router.get('/facebook', passport.authenticate('facebook'));
 
 router.get('/facebook/redirect', passport.authenticate('facebook'), (req, res) => {

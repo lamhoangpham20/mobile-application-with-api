@@ -1,5 +1,5 @@
 const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const GoogleStrategy = require('passport-google-plus-token');
 const keys = require('./Key');
 const db = require('../db');
 
@@ -16,7 +16,7 @@ passport.use(
     // options for google strategy
     clientID: keys.google.clientID,
     clientSecret: keys.google.clientSecret,
-    callbackURL: '/auth/google/redirect'
+    //callbackURL: '/auth/google/redirect'
   }, (accessToken, refreshToken, profile, done) => {
     // passport callback function
     console.log(accessToken);
@@ -26,13 +26,14 @@ passport.use(
         if (result.length != 0) {
           // user already in the db
           user = result[0];
-          //console.log('user already in the db');
+          console.log('user already in the db');
           //console.log(result[0]);
           
           done(null, user);
         }
         else {
           //create new user
+          console.log('create new users');
           db.query('INSERT INTO users (idOauth, name) VALUES (?,?)', [profile.id, profile.displayName])
             .then(
               results => {
