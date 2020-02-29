@@ -12,3 +12,5 @@ module.exports = {
         clientSecret:"4ad5466f688393728b08cf21042ee268"
     }
 }
+
+for put delete method and post product you need to authenticate with jwt
